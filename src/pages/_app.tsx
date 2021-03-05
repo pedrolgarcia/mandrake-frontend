@@ -7,6 +7,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import createCache from '@emotion/cache';
 import theme from '../styles/theme';
 
+import { AuthProvider } from '../contexts/auth';
+
 export const cache = createCache({ key: 'css', prepend: true });
 
 export default function MyApp(props: AppProps) {
@@ -28,7 +30,10 @@ export default function MyApp(props: AppProps) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Component {...pageProps} />
+
+        <AuthProvider>
+          <Component {...pageProps} />
+        </AuthProvider>
       </ThemeProvider>
     </CacheProvider>
   );
