@@ -3,7 +3,8 @@ import { Typography } from '@material-ui/core';
 
 import MenuDrawer from '../components/MenuDrawer';
 
-import useStyles from '../styles/pages/Dashboard';
+import useStyles from '../styles/pages/dashboard';
+
 import { useAuth } from '../utils/hooks/useAuth';
 
 export default function Dashboard() {
