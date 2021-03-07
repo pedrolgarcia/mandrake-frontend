@@ -18,7 +18,26 @@
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "baseUrl": "./",
+    "paths": {
+        "*": ["src/*"],
+        "@components/*": ["src/components/*"],
+        "@utils/*": ["src/utils/*"],
+        "@hooks/*": ["src/utils/hooks/*"],
+        "@services/*": ["src/services/*"],
+        "@pages/*": ["src/pages/*"],
+        "@contexts/*": ["src/contexts/*"],
+        "@styles/*": ["src/styles/*"],
+
+        "@components": ["src/components"],
+        "@utils": ["src/utils"],
+        "@hooks": ["src/utils/hooks"],
+        "@services": ["src/services"],
+        "@pages": ["src/pages"],
+        "@contexts": ["src/contexts"],
+        "@styles": ["src/styles"],
+    }
   },
   "exclude": ["node_modules"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]

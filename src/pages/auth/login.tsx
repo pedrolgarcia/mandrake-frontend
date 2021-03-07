@@ -10,12 +10,37 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import Copyright from '../../components/Copyright';
+import { Alert, Slide, Snackbar } from '@material-ui/core';
+import { TransitionProps } from '@material-ui/core/transitions';
 
-import useStyles from '../../styles/pages/auth/login';
+import Copyright from '@components/Copyright';
+
+import useStyles from '@styles/pages/auth/login';
+
+import { useAuth } from '@utils/hooks/useAuth';
+
+function SlideTransition(props: TransitionProps) {
+  return <Slide {...props} direction="left" />;
+}
 
 export default function Login() {
+  const [email, setEmail] = React.useState<string>('');
+  const [password, setPassword] = React.useState<string>('');
+  const [error, setError] = React.useState<boolean | string>(false);
+
   const classes = useStyles();
+  const { signIn } = useAuth();
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      const response = await signIn(email, password);
+      console.log(response);
+    } catch(e) {
+      console.log(e);
+      setError(e);
+    }
+  }
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -53,6 +78,8 @@ export default function Login() {
               name="email"
               autoComplete="email"
               autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -63,6 +90,8 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -73,6 +102,7 @@ export default function Login() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={handleSubmit}
             >
               Entrar
             </Button>
@@ -89,6 +119,18 @@ export default function Login() {
               </Grid>
             </Grid>
           </Box>
+
+          <Snackbar
+            open={!!error}
+            onClose={() => setError(false)}
+            autoHideDuration={4000}
+            TransitionComponent={SlideTransition}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          >
+            <Alert onClose={() => setError(false)} severity="error" variant="filled">
+              {String(error)}
+            </Alert>
+          </Snackbar>
         </Box>
 
         <Copyright />

@@ -2,6 +2,12 @@
   "name": "mandrake-frontend",
   "version": "1.0",
   "private": true,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  },
   "dependencies": {
     "@emotion/cache": "latest",
     "@emotion/react": "latest",
@@ -9,16 +15,11 @@
     "@emotion/styled": "latest",
     "@material-ui/core": "next",
     "@material-ui/icons": "^4.11.2",
+    "axios": "^0.21.1",
     "clsx": "latest",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
-  },
-  "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start",
-    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
   },
   "devDependencies": {
     "@types/node": "latest",

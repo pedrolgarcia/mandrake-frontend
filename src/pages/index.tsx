@@ -1,18 +1,27 @@
 import React, { useEffect } from 'react';
+import { GetServerSideProps } from 'next';
+import Router from 'next/router';
 import { Typography } from '@material-ui/core';
 
-import MenuDrawer from '../components/MenuDrawer';
+import MenuDrawer from '@components/MenuDrawer';
 
-import useStyles from '../styles/pages/dashboard';
+import useStyles from '@styles/pages/dashboard';
 
-import { useAuth } from '../utils/hooks/useAuth';
+import { useAuth } from '@utils/hooks/useAuth';
 
-export default function Dashboard() {
+interface DashboardProps {
+  signed: boolean;
+}
+
+export default function Dashboard(props: DashboardProps) {
   const { signed } = useAuth();
   const classes = useStyles();
 
   useEffect(() => {
     console.log(signed)
+    if(!signed) {
+      Router.push('/auth/login');
+    }
   }, []);
 
   return (
@@ -46,4 +55,14 @@ export default function Dashboard() {
       </main>
     </div>
   );
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  // const {  } = ctx.req.cookies;
+
+  return {
+    props: { 
+      // signed
+    }
+  }
 }
