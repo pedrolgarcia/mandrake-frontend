@@ -10,7 +10,7 @@ import useStyles from '@styles/pages/dashboard';
 import { useAuth } from '@utils/hooks/useAuth';
 
 interface DashboardProps {
-  signed: boolean;
+  token?: string | boolean;
 }
 
 export default function Dashboard(props: DashboardProps) {
@@ -18,8 +18,8 @@ export default function Dashboard(props: DashboardProps) {
   const classes = useStyles();
 
   useEffect(() => {
-    console.log(signed)
-    if(!signed) {
+    console.log(props.token)
+    if(!props.token) {
       Router.push('/auth/login');
     }
   }, []);
@@ -58,11 +58,11 @@ export default function Dashboard(props: DashboardProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  // const {  } = ctx.req.cookies;
+  const { token } = ctx.req.cookies;
 
   return {
     props: { 
-      // signed
+      token: token || false
     }
   }
 }

@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { useRouter } from 'next/router';
+import { useForm } from "react-hook-form";
+
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -14,6 +16,7 @@ import { Alert, Slide, Snackbar } from '@material-ui/core';
 import { TransitionProps } from '@material-ui/core/transitions';
 
 import Copyright from '@components/Copyright';
+import Button from '@components/Button';
 
 import useStyles from '@styles/pages/auth/login';
 
@@ -24,21 +27,27 @@ function SlideTransition(props: TransitionProps) {
 }
 
 export default function Login() {
+  const router = useRouter();
+  const { register, handleSubmit, watch, errors } = useForm();
+
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<boolean | string>(false);
 
   const classes = useStyles();
   const { signIn } = useAuth();
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const onSubmit = async (data: any) => {
+    setLoading(true);
     try {
-      const response = await signIn(email, password);
-      console.log(response);
+      console.log(data)
+      const response = await signIn(data.email, data.password);
+      router.push('/');
     } catch(e) {
       console.log(e);
       setError(e);
+      setLoading(false);
     }
   }
 
@@ -68,8 +77,10 @@ export default function Login() {
               width: '100%',
               mt: 1,
             }}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <TextField
+              inputRef={register}
               margin="normal"
               required
               fullWidth
@@ -82,6 +93,7 @@ export default function Login() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
+              inputRef={register}
               margin="normal"
               required
               fullWidth
@@ -99,13 +111,13 @@ export default function Login() {
             />
             <Button
               type="submit"
+              text="ENTRAR"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={handleSubmit}
-            >
-              Entrar
-            </Button>
+              loading={loading}
+              disabled={loading}
+            />
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -114,7 +126,7 @@ export default function Login() {
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Não tem uma conta? Cadastre-se aqui"}
+                  {"Ainda não tenho uma conta"}
                 </Link>
               </Grid>
             </Grid>
