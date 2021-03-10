@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import Router from 'next/router';
 import { Typography } from '@material-ui/core';
@@ -7,24 +7,25 @@ import MenuDrawer from '@components/MenuDrawer';
 
 import useStyles from '@styles/pages/dashboard';
 
-import { useAuth } from '@utils/hooks/useAuth';
+import Loading from 'components/Loading';
 
 interface DashboardProps {
   token?: string | boolean;
 }
 
 export default function Dashboard(props: DashboardProps) {
-  const { signed } = useAuth();
+  const [appReady, setAppReady] = useState<boolean>(false);
+  
   const classes = useStyles();
 
   useEffect(() => {
-    console.log(props.token)
-    if(!props.token) {
+    if(!props.token)
       Router.push('/auth/login');
-    }
+    else
+      setAppReady(true);
   }, []);
 
-  return (
+  return !appReady ? <Loading /> : (
     <div className={classes.root}>
       <MenuDrawer />
       <main className={classes.content}>

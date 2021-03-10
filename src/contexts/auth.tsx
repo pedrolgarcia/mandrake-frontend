@@ -46,15 +46,13 @@ export const AuthProvider: React.FC = ({ children }) => {
     }, []);
 
     const signIn = async (username: string, password: string) => {
-        console.log(username, password)
         try {
             const response = await api.post(REMOTE.SIGN_IN, { username, password });
-            console.log(response);
             if(response.data?.token) {
+                setToken(response.data?.token);
                 Cookies.set('token', String(response.data?.token));
             }
         } catch(e) {
-            console.log(e.response)
             throw new Error(e.response?.data?.error);            
         }
         // const response = await auth.signIn(username, password);
