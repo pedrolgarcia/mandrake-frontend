@@ -8,12 +8,13 @@ import MenuDrawer from '@components/MenuDrawer';
 import useStyles from '@styles/pages/dashboard';
 
 import Loading from 'components/Loading';
+import Authenticated from 'utils/hoc/authenticated';
 
 interface DashboardProps {
   token?: string | boolean;
 }
 
-export default function Dashboard(props: DashboardProps) {
+function Dashboard(props: DashboardProps) {
   const [appReady, setAppReady] = useState<boolean>(false);
   
   const classes = useStyles();
@@ -57,6 +58,8 @@ export default function Dashboard(props: DashboardProps) {
     </div>
   );
 }
+
+export default Authenticated(Dashboard);
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { token } = ctx.req.cookies;
