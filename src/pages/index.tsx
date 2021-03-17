@@ -1,32 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { GetServerSideProps } from 'next';
-import Router from 'next/router';
+import React from 'react';
 import { Typography } from '@material-ui/core';
 
 import MenuDrawer from '@components/MenuDrawer';
 
 import useStyles from '@styles/pages/dashboard';
 
-import Loading from 'components/Loading';
-import Authenticated from 'utils/hoc/authenticated';
+import { Authenticated } from 'utils/hoc/Authenticated';
 
 interface DashboardProps {
   token?: string | boolean;
 }
 
-function Dashboard(props: DashboardProps) {
-  const [appReady, setAppReady] = useState<boolean>(false);
-  
+function Dashboard(props: DashboardProps) {  
   const classes = useStyles();
 
-  useEffect(() => {
-    if(!props.token)
-      Router.push('/auth/login');
-    else
-      setAppReady(true);
-  }, []);
-
-  return !appReady ? <Loading /> : (
+  return (
     <div className={classes.root}>
       <MenuDrawer />
       <main className={classes.content}>
@@ -60,13 +48,3 @@ function Dashboard(props: DashboardProps) {
 }
 
 export default Authenticated(Dashboard);
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { token } = ctx.req.cookies;
-
-  return {
-    props: { 
-      token: token || false
-    }
-  }
-}
