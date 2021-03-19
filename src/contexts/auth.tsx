@@ -27,19 +27,18 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     useEffect(() => {
         const loadStoragedData = async () => {
-            // const storagedUser = await AsyncStorage.getItem('@FitFIND:user');
-            // const storagedToken = await AsyncStorage.getItem('@FitFIND:token');
+            const storagedUser = Cookies.get('user');
+            const storagedToken = Cookies.get('token');
 
-            // if(storagedUser) {
-            //     setUser(JSON.parse(storagedUser));
-            // }
-            // if (storagedUser && storagedToken) {
-            //     api.defaults.headers.Authorization = `JWT ${storagedToken}`;
+            console.log(storagedToken)
 
-            //     setGroup(storagedGroup);
-            //     setUser(JSON.parse(storagedUser));
-            //     setToken(storagedToken);
-            // }
+            if (storagedToken) {
+                api.defaults.headers.Authorization = `JWT ${storagedToken}`;
+                setToken(String(storagedToken));
+            }
+            if(storagedUser) {
+                setUser(JSON.parse(storagedUser));
+            }
         };
 
         loadStoragedData();
@@ -48,6 +47,9 @@ export const AuthProvider: React.FC = ({ children }) => {
     const signIn = async (username: string, password: string) => {
         try {
             const response = await api.post(REMOTE.SIGN_IN, { username, password });
+            console.log(response)
+            api.defaults.headers.Authorization = `Bearer ${response.data.token}`;
+
             if(response.data?.token) {
                 setToken(response.data?.token);
                 Cookies.set('token', String(response.data?.token));
@@ -110,7 +112,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         // api.defaults.headers.Authorization = `JWT ${token}`;
     };
 
-    return <AuthContext.Provider value={{ signed: !!user, user, signIn, signOut, updateMe, updateToken }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ signed: !!token, user, signIn, signOut, updateMe, updateToken }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContext;

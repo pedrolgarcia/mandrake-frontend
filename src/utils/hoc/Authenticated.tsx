@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-
 import { useRouter } from "next/router";
-import { useAuth } from "utils/hooks/useAuth"
-import Loading from 'components/Loading';
+
+import Loading from '@components/Loading';
+
+import { useAuth } from "@utils/hooks/useAuth"
 
 export const Authenticated = (WrappedComponent: any) => {
   const Wrapper = (props: any) => {
@@ -11,11 +12,13 @@ export const Authenticated = (WrappedComponent: any) => {
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
+      console.log(signed)
       if (signed) {
-        router.push('/')
+        router.push('/');
       } else {
         router.push('/auth/login')
       }
+      setLoading(false)
     }, [signed])
 
     return loading ? (

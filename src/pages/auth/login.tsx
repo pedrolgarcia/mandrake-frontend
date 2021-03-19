@@ -21,12 +21,13 @@ import Button from '@components/Button';
 import useStyles from '@styles/pages/auth/login';
 
 import { useAuth } from '@utils/hooks/useAuth';
+import { Authenticated } from '@utils/hoc/Authenticated';
 
 function SlideTransition(props: TransitionProps) {
   return <Slide {...props} direction="left" />;
 }
 
-export default function Login() {
+function Login() {
   const router = useRouter();
   const { register, handleSubmit, watch, errors } = useForm();
 
@@ -150,3 +151,5 @@ export default function Login() {
     </Grid>
   );
 }
+
+export default Authenticated(Login);

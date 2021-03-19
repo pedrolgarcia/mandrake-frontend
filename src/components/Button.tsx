@@ -12,7 +12,7 @@ export default function Button(props: ButtonProps) {
       {...props}
       style={props.disabled ? { backgroundColor: theme.palette.primary.dark, boxShadow: '-1px 2px 4px 0px rgba(0,0,0,0.45)' } : {}}
     >
-      {props.loading ? (
+      {!!props.loading ? (
         <MaterialCore.CircularProgress
           size={20}
           style={{ color: '#fff' }}
