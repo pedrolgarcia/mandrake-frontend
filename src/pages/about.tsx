@@ -7,8 +7,9 @@ import Button from '@material-ui/core/Button';
 import ProTip from '@components/ProTip';
 import Link from '@components/Link';
 import Copyright from '@components/Copyright';
+import { Authenticated } from 'utils/hoc/Authenticated';
 
-export default function About() {
+function About() {
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
@@ -24,3 +25,5 @@ export default function About() {
     </Container>
   );
 }
+
+export default Authenticated(About);

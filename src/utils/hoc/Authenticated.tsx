@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/router";
+import Cookies from 'js-cookie';
 
 import Loading from '@components/Loading';
-
-import { useAuth } from "@utils/hooks/useAuth"
 
 export const Authenticated = (WrappedComponent: any) => {
   const Wrapper = (props: any) => {
     const router = useRouter();
-    const { signed } = useAuth();
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-      console.log(signed)
-      if (signed) {
-        router.push('/');
+      var signed = Cookies.get('token');
+
+      if (!signed) {
+        router.push('/auth/login').then(() => setLoading(false))
       } else {
-        router.push('/auth/login')
+        if(router.route.includes('auth')) {
+          router.push('/');
+        } else {
+          setLoading(false)
+        }
       }
-      setLoading(false)
-    }, [signed])
+    }, [])
 
     return loading ? (
       <Loading />

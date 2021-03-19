@@ -16,10 +16,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { Mail, MoveToInbox, ChevronRight, ChevronLeft } from '@material-ui/icons';
 
 import useStyles from '../styles/components/MenuDrawer';
+import { useRouter } from 'next/router';
 
 export default function MenuDrawer() {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -76,7 +78,7 @@ export default function MenuDrawer() {
         <Divider />
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
+            <ListItem button key={text} onClick={() => router.push('/about')}>
               <ListItemIcon>{index % 2 === 0 ? <MoveToInbox /> : <Mail />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
