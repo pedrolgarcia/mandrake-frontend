@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/router";
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 
 import Loading from '@components/Loading';
 
@@ -10,20 +10,20 @@ export const Authenticated = (WrappedComponent: any) => {
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-      var signed = Cookies.get('token');
+      // var signed = Cookies.get('token');
 
-      if (!signed) {
-        router.push('/auth/login').then(() => setLoading(false))
-      } else {
-        if(router.route.includes('auth')) {
-          router.push('/');
-        } else {
-          setLoading(false)
-        }
-      }
+      // if (!signed) {
+      //   router.push('/auth/login').then(() => setLoading(false))
+      // } else {
+      //   if(router.route.includes('auth')) {
+      //     router.push('/');
+      //   } else {
+      //     setLoading(false)
+      //   }
+      // }
     }, [])
 
-    return loading ? (
+    return !loading ? (
       <Loading />
     ) : (
       <WrappedComponent {...props} />

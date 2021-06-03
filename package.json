@@ -17,14 +17,14 @@
     "@material-ui/icons": "^4.11.2",
     "axios": "^0.21.1",
     "clsx": "latest",
-    "js-cookie": "^2.2.1",
     "next": "latest",
+    "nookies": "^2.5.2",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "^6.15.4"
   },
   "devDependencies": {
-    "@types/js-cookie": "^2.2.6",
+    "@types/cookie": "^0.4.0",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
